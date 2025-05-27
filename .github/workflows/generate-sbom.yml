@@ -24,12 +24,18 @@ jobs:
       - name: Install conversion tool
         run: |
             CYCLONEDXCLI_LATEST_URL=`curl -s https://api.github.com/repos/CycloneDX/cyclonedx-cli/releases/latest | jq -r '.assets[] | select(.name | contains ("-linux-x64")) | .browser_download_url' | grep -v md5`
-            echo $CYCLONEDXCLI_LATEST_URL
+            mkdir -p /opt/cyclonedx-cli
+            wget -q -O /opt/cyclonedx-cli/cyclonedx-cli ${CYCLONEDXCLI_LATEST_URL}
+            chmod +x /opt/cyclonedx-cli/cyclonedx-cli
+            ln -s /opt/cyclonedx-cli/cyclonedx-cli /usr/local/bin/cyclonedx-cli
+            cyclonedx-cli -h
 
       - name: Convert to CycloneDX
         run: |
             cat ./sbom_spdx.json
-
+            # bomctl import sbom_spdx.json
+            # bomctl list
+            # bomctl export -f cyclonedx-1.6 
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
