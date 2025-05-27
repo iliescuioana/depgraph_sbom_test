@@ -25,9 +25,10 @@ jobs:
         run: |
             brew tap bomctl/bomctl && brew install bomctl
 
-      - name: Install conversion tool
+      - name: Convert to CycloneDX
         run: |
-            bomctl -h
+            bomctl import sbom.spdx.json
+            bomctl export -f cyclonedx-1.6 
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
