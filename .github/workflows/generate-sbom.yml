@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Set up GitHub CLI
-        uses: cli/gh-action@v2
-
       - name: Download SBOM
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
