@@ -32,10 +32,11 @@ jobs:
 
       - name: Convert to CycloneDX
         run: |
-            cat ./sbom_spdx.json
-            # bomctl import sbom_spdx.json
-            # bomctl list
-            # bomctl export -f cyclonedx-1.6 
+            cyclonedx-cli convert --input-file ./sbom_spdx.json --output-file sbom.json > sbom_cyclonedx.txt
+
+      - name: Print CycloneDX SBOM
+        run: |
+            cat ./sbom_cyclonedx.json
 
       - name: Upload SBOM artifact
         uses: actions/upload-artifact@v4
