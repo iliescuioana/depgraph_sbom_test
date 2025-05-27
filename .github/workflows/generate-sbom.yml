@@ -1,0 +1,31 @@
+name: Download Dependency Graph SBOM
+
+on:
+  push:
+    branches:
+      - 'main'
+    # tags:
+    #   - '*'  # Runs on any new tag push
+
+jobs:
+  sbom-download:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set up GitHub CLI
+        uses: cli/gh-action@v2
+
+      - name: Download SBOM
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/dependency-graph/sbom \
+            > sbom.spdx.json
+
+      - name: Upload SBOM artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.spdx.json
