@@ -27,7 +27,7 @@ jobs:
 
       - name: Convert to CycloneDX
         run: |
-            ls
+            cat sbom_spdx.json
             bomctl import sbom_spdx.json
             # bomctl list
             # bomctl export -f cyclonedx-1.6 
