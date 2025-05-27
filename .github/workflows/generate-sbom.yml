@@ -32,7 +32,7 @@ jobs:
 
       - name: Convert to CycloneDX
         run: |
-            cyclonedx-cli convert --input-file ./sbom_spdx.json --output-file sbom_cyclonedx.json
+            cyclonedx-cli convert --input-file sbom_spdx.json --output-file sbom_cyclonedx.json
             ls
 
       - name: Print CycloneDX SBOM
