@@ -1,18 +1,16 @@
-name: Download Dependency Graph SBOM
+name: Convert formats - cyclonedx-cli
 
 on:
   push:
     branches:
       - 'main'
-    # tags:
-    #   - '*'  # Runs on any new tag push
 
 jobs:
   sbom-download:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Download SBOM
+      - name: Download SBOM from Github's Dependency Graph
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -28,12 +26,10 @@ jobs:
             wget -q -O /opt/cyclonedx-cli/cyclonedx-cli ${CYCLONEDXCLI_LATEST_URL}
             chmod +x /opt/cyclonedx-cli/cyclonedx-cli
             ln -s /opt/cyclonedx-cli/cyclonedx-cli /usr/local/bin/cyclonedx-cli
-            cyclonedx-cli -h
 
       - name: Convert to CycloneDX
         run: |
             cyclonedx-cli convert --input-file sbom_spdx.json --input-format json --output-file sbom_cyclonedx.json --output-format json
-            ls
 
       - name: Print CycloneDX SBOM
         run: |
